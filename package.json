@@ -1,0 +1,9 @@
+{
+  "name": "deskweb",
+  "version": "0.1.0",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.13.3",
+    "pageres": "^3.0.1"
+  }
+}
