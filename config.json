@@ -1,0 +1,20 @@
+{
+  "widgets": [{
+    "name": "instagram",
+    "width": 500,
+    "height": 500,
+    "x": 20,
+    "y": 20
+  },  
+  {
+    "name": "wunderlist",
+    "width": 200,
+    "height": 800,
+    "x": 800,
+    "y": 20
+  }],
+  "config": {
+    "width": 1680,
+    "height": 1050
+  }
+}
