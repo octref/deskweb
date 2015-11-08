@@ -1,12 +1,3 @@
-/*
- * caption
- * url
- * username
- * likes
- *
- * empty
- */
-
 var React = require('react');
 
 var _ = require('lodash');
@@ -15,13 +6,24 @@ var $ = require('jquery');
 
 var YHackImage = React.createClass({
   render: function() {
-    var className = this.props.image.empty ? 'E-img' : 'Y-img';
+    if (this.props.image.empty) {
+      return (
+        <div key={_.uniqueId()} className={'E-img'}>
+          <img src={this.props.image.url} width="150" height="150"></img>
+        </div>
+      );
+    } else {
+      var classes = 'Y-img';
+      if (!this.props.image.visible) {
+        classes += ' invis';
+      }
 
-    return (
-      <div key={_.uniqueId()} className={className}>
-        <img src={this.props.image.url} width="150" height="150"></img>
-      </div>
-    );
+      return (
+        <div key={_.uniqueId()} className={classes}>
+          <img src={this.props.image.url} width="150" height="150"></img>
+        </div>
+      );
+    }
   }
 });
 
@@ -42,6 +44,17 @@ var YHackRow = React.createClass({
 });
 
 var YHackWidget = React.createClass({
+  getInitialState: function() {
+    return {
+      index: 0,
+      visibilityArr: [false, false, false, false, false, false, false, false]
+    };
+  },
+
+  /*
+   * Helper functions
+   */
+
   sendUpdate: function() {
     $.post('http://localhost:4001', {
       markup: document.documentElement.innerHTML
@@ -50,18 +63,34 @@ var YHackWidget = React.createClass({
     });
   },
 
+  updateVisibility: function() {
+    var currVisibilityArr = this.state.visibilityArr;
+    currVisibilityArr[this.state.index] = true;
+    console.log(currVisibilityArr, this.state.index);
+    this.setState({ visibilityArr: currVisibilityArr, index: (this.state.index + 1) % 8 });
+  },
+
   /*
    * Lifecycle
    */
   componentDidMount() {
     this.sendUpdate();
+
+    setInterval(this.updateVisibility, 2000);
   },
+
   componentDidUpdate: function() {
     this.sendUpdate();
   },
 
   render: function() {
-    var images = this.props.images;
+    var visibilityArr = this.state.visibilityArr;
+
+    _.forEach(images, function(image, index) {
+      image.visible = visibilityArr[index];
+    });
+
+    console.log('Updated images', _.pluck(images, 'caption'));
 
     var biImgMatrix = [
       [1, 0, 0, 0, 1],
@@ -71,12 +100,13 @@ var YHackWidget = React.createClass({
       [0, 0, 1, 0, 0]
     ];
 
+    var count = 0;
     var imgMatrix = _.map(biImgMatrix, function(biImgRow) {
       return _.map(biImgRow, function(biImg) {
         if (biImg === 1) {
-          return images.shift();
+          return images[count++];
         } else {
-          return { empty: true };
+          return { empty: true, visible: false };
         }
       });
     });

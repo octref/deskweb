@@ -22,6 +22,13 @@ var TAG = 'yhack';
 // Static file
 app.use('/static', express.static(path.join(__dirname + '/static')));
 
+// /simple
+app.use('/simple', function(req, res) {
+  instagramAPI.getTagImages(TAG, function(simplifiedImages) {
+    res.render('simple', { images: simplifiedImages });
+  });
+});
+
 // Root
 app.use('/', function(req, res) {
   instagramAPI.getTagImages(TAG, function(simplifiedImages) {

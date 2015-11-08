@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node site/server.js",
-    "build-web": "browserify -t [ babelify --presets [react] ] site/main.js -o site/static/js/bundle.js"
+    "build-web": "browserify -t [ babelify --presets [react] ] site/main.js -o site/static/js/bundle.js",
+    "build-simple": "browserify -t [ babelify --presets [react] ] site/simpleMain.js -o site/static/js/simpleBundle.js"
   },
   "dependencies": {
     "babel-preset-react": "^6.1.2",
