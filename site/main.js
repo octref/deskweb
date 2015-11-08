@@ -11,27 +11,18 @@ var InstagramWidget = React.createClass({
     };
   },
 
-  componentWillReceiveProps: function(nextProps) {
-    this.setState({
-      currentlist: nextProps.newImageList
-    });
-  },
-
+  /*
+   * Helper functions
+   */
   switchImage: function() {
     if (this.state.index !== (this.state.currentlist.length - 1)) {
-
-      this.setState({
-        index: this.state.index + 1, 
-      });
-    }
-    else {
-      this.setState({
-        index: 0
-      });
+      this.setState({ index: this.state.index + 1 });
+    } else {
+      this.setState({ index: 0 });
     }
   },
 
-  componentDidUpdate: function() {
+  sendUpdate: function() {
     $.post('http://localhost:4001', {
       markup: document.documentElement.innerHTML
     }, function() {
@@ -39,14 +30,31 @@ var InstagramWidget = React.createClass({
     });
   },
 
+  /*
+   * Lifecycle
+   */
+  componentWillReceiveProps: function(nextProps) {
+    this.setState({
+      currentlist: nextProps.newImageList
+    });
+  },
+
+  componentDidUpdate: function() {
+    this.sendUpdate();
+  },
+
   componentDidMount: function() {
     this.interval = setInterval(this.switchImage, 5000);
+    this.sendUpdate();
   },
 
   componentWillUnmount: function() {
     clearInterval(this.interval);
   },
 
+  /*
+   * Render
+   */
   render: function() {
     return (
       <img src={this.state.currentlist[this.state.index]} width="600" height="600"></img>
