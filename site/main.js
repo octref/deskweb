@@ -6,7 +6,7 @@ var $ = require('jquery');
 var InstagramWidget = React.createClass({
   getInitialState: function() {
     return {
-      currentlist: this.props.newImageList,
+      currImages: this.props.newImageList,
       index: 0
     };
   },
@@ -15,7 +15,7 @@ var InstagramWidget = React.createClass({
    * Helper functions
    */
   switchImage: function() {
-    if (this.state.index !== (this.state.currentlist.length - 1)) {
+    if (this.state.index !== (this.state.currImages.length - 1)) {
       this.setState({ index: this.state.index + 1 });
     } else {
       this.setState({ index: 0 });
@@ -35,7 +35,7 @@ var InstagramWidget = React.createClass({
    */
   componentWillReceiveProps: function(nextProps) {
     this.setState({
-      currentlist: nextProps.newImageList
+      currImages: nextProps.newImageList
     });
   },
 
@@ -57,20 +57,12 @@ var InstagramWidget = React.createClass({
    */
   render: function() {
     return (
-      <img src={this.state.currentlist[this.state.index]} width="600" height="600"></img>
+      <img src={this.state.currImages[this.state.index].url} width="600" height="600"></img>
     );
   }
 });
 
-// Get new images from Instagram API and populate React Component
-
-var instagramAPI = require('./instagramAPI.js');
-
-var TAG = 'yhack';
-
-instagramAPI.getTagImages(TAG, function(simplifiedImages) {
-  ReactDOM.render(
-    <InstagramWidget newImageList={simplifiedImages} />,
-    document.getElementById('root')
-  );
-});
+ReactDOM.render(
+  <InstagramWidget newImageList={window.images} />,
+  document.getElementById('root')
+);

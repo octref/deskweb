@@ -1,0 +1,9 @@
+html
+  head
+    title!= title
+  body
+    #root
+    script(type='text/javascript').
+      window.images = !{JSON.stringify(images)}
+    script(src='/static/js/bundle.js')
+
