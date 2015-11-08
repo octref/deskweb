@@ -1,3 +1,26 @@
 body {
   background-color: #f2f2f2;
 }
+
+.Y-row {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
+.Y-widget {
+  width: 900px;
+  margin: 0 auto;
+}
+
+.Y-img img, .E-img img {
+  border: none;
+}
+
+.Y-img, .E-img {
+  margin: 10px;
+}
+
+.E-img {
+  opacity: 0;
+}

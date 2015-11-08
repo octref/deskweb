@@ -29,11 +29,16 @@ module.exports = {
         var simplifiedImages = _.map(images, function(image) {
           return {
             id: image.id,
-            url: image.images.standard_resolution.url
+            url: image.images.standard_resolution.url,
+            caption: image.caption.text,
+            username: image.user.username,
+            likes: image.likes.count
           };
         });
 
-        cb(simplifiedImages);
+        if (cb) {
+          cb(simplifiedImages.slice(0, 8));
+        }
       }
     });
   }
