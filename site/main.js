@@ -62,9 +62,15 @@ var InstagramWidget = React.createClass({
   }
 });
 
-var newImageList = require('./imageList.json');
+// Get new images from Instagram API and populate React Component
 
-ReactDOM.render(
-  <InstagramWidget newImageList={newImageList} />,
-  document.getElementById('root')
-);
+var instagramAPI = require('./instagramAPI.js');
+
+var TAG = 'yhack';
+
+instagramAPI.getTagImages(TAG, function(simplifiedImages) {
+  ReactDOM.render(
+    <InstagramWidget newImageList={simplifiedImages} />,
+    document.getElementById('root')
+  );
+});
