@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js",
+    "start": "node site/server.js",
     "build-web": "browserify -t [ babelify --presets [react] ] site/main.js -o site/static/js/bundle.js"
   },
   "dependencies": {
