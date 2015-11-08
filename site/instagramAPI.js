@@ -6,12 +6,14 @@ var path = require('path'),
 var request = require('request'),
     _       = require('lodash');
 
-var INSTAGRAM_TOKEN = require('./secret/instagram_token.js');
+var INSTAGRAM_TOKEN = require('../secret/instagram_token.js');
 
 module.exports = {
   getTagImages: function(tag, cb) {
+    var urlTemplate = _.template('https://api.instagram.com/v1/tags/<%= tag %>/media/recent');
+
     request({
-      url: `https://api.instagram.com/v1/tags/${tag}/media/recent`;
+      url: urlTemplate({ tag: tag }),
       qs: {
         access_token: INSTAGRAM_TOKEN
       },
