@@ -42,8 +42,22 @@ var YHackRow = React.createClass({
 });
 
 var YHackWidget = React.createClass({
-  getInitialState: function() {
+  sendUpdate: function() {
+    $.post('http://localhost:4001', {
+      markup: document.documentElement.innerHTML
+    }, function() {
+      console.log('Sent update to bgserver');
+    });
+  },
 
+  /*
+   * Lifecycle
+   */
+  componentDidMount() {
+    this.sendUpdate();
+  },
+  componentDidUpdate: function() {
+    this.sendUpdate();
   },
 
   render: function() {

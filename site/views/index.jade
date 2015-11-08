@@ -1,7 +1,43 @@
 html
   head
     title!= title
-    link(rel='stylesheet', href='/static/css/style.css')
+    style.
+      body {
+        background-color: #f2f2f2;
+      }
+
+      .Y-row {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-flow: row nowrap;
+            -ms-flex-flow: row nowrap;
+                flex-flow: row nowrap;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+      }
+
+      .Y-widget {
+        width: 900px;
+        margin: 0 auto;
+        margin-top: 100px;
+      }
+
+      .Y-img img, .E-img img {
+        border: none;
+      }
+
+      .Y-img, .E-img {
+        margin: 10px;
+      }
+
+      .E-img {
+        opacity: 0;
+      }
+
   body
     #root
     script(type='text/javascript').
