@@ -1,25 +1,36 @@
+// Given a tag, return a list of Instagram images associated with it
 
+var path = require('path'),
+    fs   = require('fs');
 
-var request = require('request');
+var request = require('request'),
     _       = require('lodash');
 
-var req_image;
+var INSTAGRAM_TOKEN = require('./secret/instagram_token.js');
 
-request({
-	url: 'https://api.instagram.com/v1/tags/yhack/media/recent',
-  qs: {
-    access_token: "1977969628.a0965ff.ec2b60b9345f41828177c7e238353779"
+module.exports = function(tag, cb) {
+  request({
+    url: `https://api.instagram.com/v1/tags/${tag}/media/recent`;
+    qs: {
+      access_token: INSTAGRAM_TOKEN
+    },
+    headers: {
+      "User-Agent": "Deskweb"
+    }
+  }, function(err, res, body){
+    if (res.statusCode === 200) {
+      var images = _.reject(JSON.parse(body).data, function(image) {
+        return image.type === "video";
+      });
 
-  },
-	headers: {
-		"User-Agent": "hello"
-	}
-}, function(err, res, body){
-	if (JSON.parse(body).meta.code === 200) {
-		req_image = JSON.parse(body).data;
-    var result = _.map(req_image, function(val) {
-      return val.images.standard_resolution.url
-    });
-    require('fs').writeFileSync('build/imageList.json', JSON.stringify(result, null, 2), 'utf8');
-	}
-});
+      var simplifiedImages = _.map(images, function(image) {
+        return {
+          id: image.id,
+          url: image.images.standard_resolution.url
+        };
+      });
+
+      cb(simplifiedImages);
+    }
+  });
+};
